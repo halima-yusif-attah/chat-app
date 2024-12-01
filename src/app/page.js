@@ -22,9 +22,13 @@ export default function Home() {
 
 
   return (
-   <main>
+   <main className="flex">
    
     <Sidebar show={show}/>
+    
+    <div className="flex flex-col items-center justify-center w-full">
+      <p className="text-lg ">Select user to chat with</p>
+    </div>
    </main>
   );
 }

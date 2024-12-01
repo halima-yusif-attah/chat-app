@@ -47,7 +47,6 @@ const  ChatScreen = ({chat, messages}) => {
       photoURL: user.photoURL
       })
 
-      //Append the message to the messages array
       messages.push({
         timestamp: serverTimestamp(),
         message: input,
@@ -107,7 +106,7 @@ const  ChatScreen = ({chat, messages}) => {
           
         }}
         />
-        {console.log("id", message.user)}
+
         </>
       ))}
       </>
@@ -115,7 +114,7 @@ const  ChatScreen = ({chat, messages}) => {
           <div/>
         </div>
         <form className="flex items-center p-[10px] sticky bottom-0 bg-white z-[100]">
-          <input value={input} onChange={(e) => setInput(e.target.value)} className="flex-1 border-0 outline-none bg-[whitesmoke] mx-4 p-5" />
+          <input value={input} onChange={(e) => setInput(e.target.value)} className="flex-1 border-0 outline-none bg-[whitesmoke] mx-4 p-5 rounded-lg" />
           <button hidden disabled={!input} type="submit" onClick={sendMessage} >Send Message</button>
           <Mic />
         </form>

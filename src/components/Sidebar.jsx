@@ -17,6 +17,7 @@ const Sidebar = ({show}) => {
 
 const [user] = useAuthState(auth);
 const [filterText, setFilterText] = useState("")
+const [activeChatId, setActiveChatId] = useState(null);
 
   const userChatRef = query(
     collection(db, 'chats'),
@@ -54,7 +55,7 @@ const [filterText, setFilterText] = useState("")
   return (
     <aside show={show ? "visible" : "hidden"} className="flex-[0.45] border-r border-whitesmoke h-screen min-w-[330px] max-w-[350px] overflow-y-scroll bg-white no-scrollbar">
       
-        <div className="flex sticky top-0 bg-white z-10 justify-between items-center p-[15px] h-[80px] border-b border-whitesmoke">
+        <div className="flex sticky top-0 bg-white z-10 justify-between items-center p-[15px] h-[80px] border-b border-whitesmoke cursor-pointer">
             
                 <Avatar onClick={() => auth.signOut()}>
   <AvatarImage src={user.photoURL}  />
@@ -86,7 +87,8 @@ const [filterText, setFilterText] = useState("")
             client.toLowerCase().includes(filterText)
           );
       }).map((chat) => (
-        <Chat key={chat.id} id={chat.id} users={chat.data().clients} />
+        <Chat key={chat.id} id={chat.id} users={chat.data().clients} activeChatId={activeChatId} 
+          setActiveChatId={setActiveChatId} />
        )
         
        )}

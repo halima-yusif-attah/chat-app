@@ -1,51 +1,32 @@
 'use client'
 
 import { useAuthState } from "react-firebase-hooks/auth"
-import { auth, db } from '../../firebase'
-import { useCollection } from "react-firebase-hooks/firestore"
-import { collection, where, query, doc } from "firebase/firestore"
+import { auth } from '../../firebase'
 import { useRouter } from "next/navigation"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import getRecipientEmail from "../../utils/getReceipientEmail"
 import { useSidebar } from "@/context/useSidebarContext"
+import { cn } from "@/lib/utils"
 
 
-
-const Chat = ({ id, users }) => {
+const Chat = ({ id, users, activeChatId, setActiveChatId }) => {
   
   const router = useRouter()
   const [user] = useAuthState(auth)
   const recipientEmail = getRecipientEmail(users, user)
   const { showSidebar } = useSidebar();
-  
 
-  const [recipientSnapshot] = useCollection(
-    query(
-      collection(db, 'chats'),
-    where('clients', "array-contains", getRecipientEmail(users, user))
-    )
-)
-
-  const [usersRecipientSnapshot] = useCollection(
-    query(
-      collection(db, 'users'),
-    where("uid", "!=", user.uid))
-    )
-
-
+  const isActive = activeChatId === id;
+ 
 
   const enterChat = () => {
     router.push(`/chats/${id}`)
     showSidebar()
+    setActiveChatId(id);
   }
- 
- 
-  const usersSnaphots = usersRecipientSnapshot?.docs?.[0]?.data();
-  console.log("usersSnaphots", usersSnaphots);
+
 
     return (
-    <div className="flex items-center p-[15px] break-words cursor-pointer hover:bg-[#e9eaeb]" onClick={enterChat}>
-      
+    <div className={cn("flex items-center p-[15px] break-words cursor-pointer hover:bg-gray-400", isActive ? "bg-[#397846] text-white" : "")} onClick={enterChat}>  
         <p>{recipientEmail}</p>
     </div>
   )
